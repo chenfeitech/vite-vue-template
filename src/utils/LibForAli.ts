@@ -2,7 +2,7 @@
  * @Author: Lee
  * @Date: 2021-08-20 12:33:26
  * @LastEditors: Lee
- * @LastEditTime: 2021-11-30 20:47:26
+ * @LastEditTime: 2021-12-17 14:19:10
  * @Description: 支付宝Api
  */
 export interface AlipayLocationProps {
@@ -21,15 +21,6 @@ export interface AlipayLocationProps {
 }
 
 class LibForAli {
-  private static instance: LibForAli;
-  private constructor() {}
-  static defaultWXSDK() {
-    if (!this.instance) {
-      this.instance = new LibForAli();
-    }
-    return this.instance;
-  }
-
   public static isIntalled(callback: Function) {
     // 如果jsbridge已经注入则直接调用
     if (window.AlipayJSBridge) {

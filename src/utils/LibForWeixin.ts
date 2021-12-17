@@ -2,7 +2,7 @@
  * @Author: Li-HONGYAO
  * @Date: 2021-06-18 15:23:59
  * @LastEditors: Lee
- * @LastEditTime: 2021-11-30 20:47:56
+ * @LastEditTime: 2021-12-17 14:18:49
  * @Description: 微信Api
  */
 
@@ -21,15 +21,6 @@ interface JSSDKConfigPorps {
 }
 
 class LibForWeixin {
-  private static instance: LibForWeixin;
-  private constructor() {}
-  static defaultWXSDK() {
-    if (!this.instance) {
-      this.instance = new LibForWeixin();
-    }
-    return this.instance;
-  }
-
   /**
    * 微信授权
    * @param options
