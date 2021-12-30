@@ -1,7 +1,7 @@
 /*
  * @Author: Li-HONGYAO
  * @Date: 2021-03-27 10:14:34
- * @LastEditTime: 2021-11-30 20:22:57
+ * @LastEditTime: 2021-12-30 19:05:05
  * @LastEditors: Lee
  * @Description:
  */
@@ -44,7 +44,7 @@ service.interceptors.request.use(
     config.headers = {
       'Content-Type': 'application/json',
       Authorization: token ? `Bearer ${token}` : '',
-      source
+      source,
     };
     return config;
   },
@@ -70,7 +70,7 @@ service.interceptors.response.use(
           url: encodeURIComponent(window.location.href),
         });*/
         // 场景2：公众号或者支付宝
-        router.replace("/auth/jump");
+        router.replace('/auth/jump');
         return response.data;
       default:
         Toast.fail(msg);

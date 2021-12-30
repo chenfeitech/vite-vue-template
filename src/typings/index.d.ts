@@ -1,20 +1,16 @@
 /*
  * @Author: Li-HONGYAO
  * @Date: 2021-03-26 22:51:19
- * @LastEditTime: 2021-11-30 20:22:51
+ * @LastEditTime: 2021-12-30 19:21:17
  * @LastEditors: Lee
  * @Description:
  */
 
-import { AxiosRequestConfig } from "axios";
+import { AxiosRequestConfig } from 'axios';
 import { FiltersProps } from '@/filters';
 export {};
 
-
-/**
- * 1. axios 模块定义
- */
-
+/** 1. axios 模块定义 */
 declare module 'axios' {
   export interface AxiosInstance {
     <T = any>(config: AxiosRequestConfig): Promise<T>;
@@ -28,19 +24,14 @@ declare module 'axios' {
   }
 }
 
-/**
- * 2. vue 全局属性定义
- */
- declare module "@vue/runtime-core" {
+/** 2. vue 全局属性定义 */
+declare module '@vue/runtime-core' {
   interface ComponentCustomProperties {
     $filters: FiltersProps;
   }
 }
 
-
-/**
- * 3. 全局类型声明
- */
+/** 3. 全局类型声明 */
 declare global {
   interface Window {
     _hmt: any;
@@ -51,7 +42,6 @@ declare global {
     CONFIG_URL_FOR_IOS: string;
   }
   namespace GD {
-
     interface BaseResponse<T = any> {
       code: number;
       data: T;
@@ -69,22 +59,22 @@ declare global {
      * 列表数据类型
      */
     interface ListProps<T = any> {
-      page: number; 
-      data: T; 
-      type: "refresh" | "load"; 
-      isRefreshing: boolean; 
-      isLoading: boolean; 
+      page: number;
+      data: T;
+      type: 'refresh' | 'load';
+      isRefreshing: boolean;
+      isLoading: boolean;
       isFinished: boolean;
     }
 
-     /** 钱包 */
-     interface WalletProps {
+    /** 钱包 */
+    interface WalletProps {
       cashAmount: number /** 钱包金额(元) */;
       coinAmount: number /** 金币余额 */;
       coinCny: number /** 金币约等于多少人民币 */;
       estimateAmount: number /** 预估到账金额 */;
       accWithdrawAmount: number /** 累计提现金额 */;
-      activeStatus: number; /** 是否激活 0-未激活 1-激活 */
+      activeStatus: number /** 是否激活 0-未激活 1-激活 */;
     }
     /**
      * 提现金额配置

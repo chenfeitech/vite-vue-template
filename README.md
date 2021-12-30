@@ -58,13 +58,13 @@ Vite-vue-template
 │   │   ├── rem.ts            # 移动端适配（动态计算根节点像素）
 │   │   └── request.ts        # 基于axios封装的请求类
 │   ├── App.vue
+│   ├── env.d.ts              # 环境变量类型定义
 │   ├── index.css             # 全局预定义样式/类bootstrap使用class定义样式
 │	  └──	main.ts               # 入口文件
 ├── .env.dev                  # 开发环境配置文件       
 ├── .env.production           # 生产环境配置文件   
 ├── .env.test                 # 测试环境配置文件   
 ├── .gitignore                # git跟踪忽略配置
-├── env.d.ts                  # 环境TS变量类型定义
 ├── index.html                # 模板
 ├── postcss.config.js         # postcss 配置文件（自动添加前缀/移动端适配pxtorem)
 ├── tsconfig.json             # TS配置文件
