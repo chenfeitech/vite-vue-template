@@ -1,7 +1,7 @@
 /*
  * @Author: Li-HONGYAO
  * @Date: 2021-05-21 23:24:50
- * @LastEditTime: 2021-11-27 17:00:49
+ * @LastEditTime: 2022-01-10 16:15:37
  * @LastEditors: Lee
  * @Description:
  */
@@ -130,24 +130,20 @@ const router = createRouter({
 });
 
 // 导航守卫
-router.beforeEach((to, from, next) => {
+router.beforeEach(async (to, from) => {
   // 1. 设置标题
   if (to.path !== '/favicon.icon') {
     document.title = to.meta.title ? (to.meta.title as string) : '';
   }
   // 2.判断是否加载JSSDK
   if (to.meta.jsApiList) {
-    LibForWeixin.initJSSDK(to.meta.jsApiList as string[])
+    await LibForWeixin.initJSSDK(to.meta.jsApiList as string[])
       .then(() => {
         console.log('config JS-SDK success');
-        next();
       })
       .catch(() => {
         console.log('config JS-SDK fail');
-        next();
       });
-  } else {
-    next();
   }
 });
 
