@@ -1,7 +1,7 @@
 /*
  * @Author: Li-HONGYAO
  * @Date: 2021-05-21 23:24:50
- * @LastEditTime: 2022-01-10 16:15:37
+ * @LastEditTime: 2022-01-10 17:10:44
  * @LastEditors: Lee
  * @Description:
  */
@@ -131,11 +131,7 @@ const router = createRouter({
 
 // 导航守卫
 router.beforeEach(async (to, from) => {
-  // 1. 设置标题
-  if (to.path !== '/favicon.icon') {
-    document.title = to.meta.title ? (to.meta.title as string) : '';
-  }
-  // 2.判断是否加载JSSDK
+  // → 判断是否加载JSSDK
   if (to.meta.jsApiList) {
     await LibForWeixin.initJSSDK(to.meta.jsApiList as string[])
       .then(() => {
@@ -147,7 +143,12 @@ router.beforeEach(async (to, from) => {
   }
 });
 
-router.afterEach(() => {
+router.afterEach((to) => {
+  // → 设置标题
+  if (to.path !== '/favicon.icon') {
+    document.title = to.meta.title ? (to.meta.title as string) : '';
+  }
+  // → 滚动
   window.scrollTo(0, 0);
 });
 
