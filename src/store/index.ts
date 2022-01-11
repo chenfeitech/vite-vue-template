@@ -1,53 +1,37 @@
 /*
  * @Author: Li-HONGYAO
  * @Date: 2021-05-21 23:39:56
- * @LastEditTime: 2021-11-30 20:22:48
+ * @LastEditTime: 2022-01-11 14:54:46
  * @LastEditors: Lee
  * @Description:
  */
-import { InjectionKey } from "vue";
-import {
-  createStore,
-  ActionTree,
-  GetterTree,
-  MutationTree,
-  Store,
-  StoreOptions,
-} from "vuex";
+import { InjectionKey } from 'vue';
+import { createStore, Store, useStore as _useStore } from 'vuex';
 
-// Declare state struct
-declare interface globalStore {
-  aptDetails?: any;
-}
-// Define All params of StoreOptions
-const globalStoreState: globalStore = {
-  aptDetails: 123,
+// → 为 store state 声明类型
+export interface IState {}
+// → 定义 injection key
+export const key: InjectionKey<Store<IState>> = Symbol();
+// → 构造 store
+export const store = createStore<IState>({
+  state: () => ({}),
+  getters: {},
+  mutations: {},
+  actions: {},
+});
+/**
+ * → 简化 useStore
+ *
+ * 使用示例：
+ *
+ * import { useStore } from '@/store';
+ * const store = useStore();
+ * store.state.xxx
+ * store.getters.xxx
+ * store.commit();
+ * store.dispatch();
+ *
+ */
+export const useStore = () => {
+  return _useStore(key);
 };
-
-const globalStoreGetters: GetterTree<globalStore, any> = {
-  aptDetails: (state) => state.aptDetails,
-};
-
-const globalStoreMutations: MutationTree<globalStore> = {
-  UPDATE_APT_DETAILS(state, payload) {
-    state.aptDetails = payload;
-  },
-};
-const globalStoreActions: ActionTree<globalStore, any> = {
-  updateAptDetails({ commit }, payload) {
-    commit("UPDATE_APT_DETAILS", payload);
-  },
-};
-
-// Define StoreOptions
-const globalStoreOption: StoreOptions<globalStore> = {
-  state: globalStoreState,
-  getters: globalStoreGetters,
-  mutations: globalStoreMutations,
-  actions: globalStoreActions,
-};
-
-// Defind current store key
-export const globalStoreKey: InjectionKey<Store<globalStore>> = Symbol();
-
-export default createStore<globalStore>(globalStoreOption);

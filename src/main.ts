@@ -1,20 +1,20 @@
 /*
  * @Author: Li-HONGYAO
  * @Date: 2021-05-21 23:20:41
- * @LastEditTime: 2021-11-30 20:34:41
+ * @LastEditTime: 2022-01-11 14:56:40
  * @LastEditors: Lee
  * @Description: 入口文件
  */
 import { createApp } from 'vue';
-import App from './App.vue';
-import router from './router';
-import store, { globalStoreKey } from './store';
+import App from '@/App.vue';
+import router from '@/router';
+import { store, key } from '@/store';
 import vant from 'vant';
 import Schemes from 'lg-schemes';
 import Tools from 'lg-tools';
 // import vconsole from 'vconsole';
-import directives from './directives';
-import filters from './filters';
+import directives from '@/directives';
+import filters from '@/filters';
 
 import './utils/rem';
 import './index.css';
@@ -45,7 +45,7 @@ if (import.meta.env.VITE_APP_SOURCE === 'mp') {
 const app = createApp(App);
 
 // b. 注入
-app.use(router).use(store, globalStoreKey).use(vant);
+app.use(router).use(store, key).use(vant);
 
 // c. 配置全局属性 -- 访问：在setup函数中通过ctx访问 eg-ctx.$sayHi
 app.config.globalProperties.$filters = filters;
@@ -58,3 +58,16 @@ Schemes.config('xxx://www.xxx.com', '二级目录');
 
 // f. 挂载
 app.mount('#app');
+
+// 4. Vuex --- 持久化
+// → 页面进入：合并状态
+const localState = localStorage.getItem('LOCAL_STORE_STATE');
+if (localState) {
+  console.log('合并Store...');
+  store.replaceState(Object.assign(store.state, JSON.parse(localState)));
+}
+// → 页面刷新：存储状态
+window.addEventListener('beforeunload', () => {
+  console.log('缓存Store...');
+  localStorage.setItem('LOCAL_STORE_STATE', JSON.stringify(store.state));
+});
