@@ -1,7 +1,7 @@
 /*
  * @Author: Li-HONGYAO
  * @Date: 2021-05-21 23:20:41
- * @LastEditTime: 2022-04-19 14:17:03
+ * @LastEditTime: 2022-04-19 14:19:42
  * @LastEditors: Lee
  * @Description:
  */
@@ -20,6 +20,7 @@ export default ({ mode }) => {
     // 构建相关
     build: {
       outDir: env.VITE_OUT_DIR,
+      chunkSizeWarningLimit: 1000,
     },
     // 路径解析
     resolve: {
