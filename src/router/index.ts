@@ -1,7 +1,7 @@
 /*
  * @Author: Li-HONGYAO
  * @Date: 2021-05-21 23:24:50
- * @LastEditTime: 2022-01-10 17:10:44
+ * @LastEditTime: 2022-04-19 14:16:00
  * @LastEditors: Lee
  * @Description:
  */
@@ -125,7 +125,8 @@ const routes: Array<RouteRecordRaw> = [
 
 const router = createRouter({
   // 部署二级目录：createWebHistory(base?: string)
-  history: createWebHistory(),
+  // @ts-ignore
+  history: createWebHistory(import.meta.env.VITE_APP_BASE),
   routes,
 });
 

@@ -1,7 +1,7 @@
 /*
  * @Author: Li-HONGYAO
  * @Date: 2021-05-21 23:20:41
- * @LastEditTime: 2022-01-11 14:56:40
+ * @LastEditTime: 2022-04-19 14:18:34
  * @LastEditors: Lee
  * @Description: 入口文件
  */
@@ -12,7 +12,7 @@ import { store, key } from '@/store';
 import vant from 'vant';
 import Schemes from 'lg-schemes';
 import Tools from 'lg-tools';
-// import vconsole from 'vconsole';
+import vconsole from 'vconsole';
 import directives from '@/directives';
 import filters from '@/filters';
 
@@ -21,11 +21,13 @@ import './index.css';
 import 'vant/lib/index.css';
 
 // 1. vconsole
-if (import.meta.env.MODE === 'dev') {
-  // new vconsole();
+// @ts-ignore
+if (import.meta.env.VITE_APP_ENV !== 'pro') {
+  new vconsole();
 }
 
 // 2. 分环境加载脚本资源（同时开发支付宝生活号和微信公众号时配置）
+// @ts-ignore
 if (import.meta.env.VITE_APP_SOURCE === 'mp') {
   switch (Tools.getEnv()) {
     case 'weixin':
