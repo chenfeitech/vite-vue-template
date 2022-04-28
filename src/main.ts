@@ -1,7 +1,7 @@
 /*
  * @Author: Li-HONGYAO
  * @Date: 2021-05-21 23:20:41
- * @LastEditTime: 2022-04-19 14:18:34
+ * @LastEditTime: 2022-04-28 14:19:11
  * @LastEditors: Lee
  * @Description: 入口文件
  */
@@ -20,13 +20,13 @@ import './utils/rem';
 import './index.css';
 import 'vant/lib/index.css';
 
-// 1. vconsole
+// -- vconsole
 // @ts-ignore
 if (import.meta.env.VITE_APP_ENV !== 'pro') {
   new vconsole();
 }
 
-// 2. 分环境加载脚本资源（同时开发支付宝生活号和微信公众号时配置）
+// -- 分环境加载脚本资源（同时开发支付宝生活号和微信公众号时配置）
 // @ts-ignore
 if (import.meta.env.VITE_APP_SOURCE === 'mp') {
   switch (Tools.getEnv()) {
@@ -42,26 +42,26 @@ if (import.meta.env.VITE_APP_SOURCE === 'mp') {
   }
 }
 
-// 3. App配置/挂载相关
-// a. 创建App
+// -- App配置/挂载相关
+// 创建App
 const app = createApp(App);
 
-// b. 注入
+// 注入
 app.use(router).use(store, key).use(vant);
 
-// c. 配置全局属性 -- 访问：在setup函数中通过ctx访问 eg-ctx.$sayHi
+// 配置全局属性 -- 访问：在setup函数中通过ctx访问 eg-ctx.$sayHi
 app.config.globalProperties.$filters = filters;
 
-// d. 自定义指令
+// 自定义指令
 directives(app);
 
-// e. 配置Schemes(提示：原生嵌套H5时配置)
+// 配置Schemes(提示：原生嵌套H5时配置)
 Schemes.config('xxx://www.xxx.com', '二级目录');
 
-// f. 挂载
+// 挂载
 app.mount('#app');
 
-// 4. Vuex --- 持久化
+// -- Vuex 持久化
 // → 页面进入：合并状态
 const localState = localStorage.getItem('LOCAL_STORE_STATE');
 if (localState) {
