@@ -1,3 +1,90 @@
+<script setup lang="ts">
+import { reactive, toRefs } from 'vue';
+import { useRouter } from 'vue-router';
+import jsBridge from 'lg-js-bridge';
+
+import IconBackButtonDark from './images/back_btn_dark.png';
+import IconBackButtonLight from './images/back_btn_light.png';
+import IconRefreshButtonDark from './images/refresh_btn_dark.png';
+import IconRefreshButtonLight from './images/refresh_btn_light.png';
+
+interface StateProps {
+  height: string;
+  opacity: number;
+  innerBackgroundColor: string;
+}
+
+interface IProps {
+  title?: string;
+  type?: 'APP' | 'H5';
+  theme?: 'dark' | 'light';
+  showPlace?: boolean;
+  showBack?: boolean;
+  showStatusBar?: boolean;
+  showRefresh?: boolean;
+  rightButtonText?: string;
+  backgroundColor?: string;
+  gradientColor?: string;
+  hideTitleInTop?: boolean;
+  onBack?: () => void;
+}
+// ==> props
+const props = withDefaults(defineProps<IProps>(), {
+  type: 'APP',
+  theme: 'dark',
+  showPlace: false,
+  showBack: false,
+  showStatusBar: true,
+  showRefresh: false,
+  backgroundColor: '#FFFFFF',
+  hideTitleInTop: false,
+});
+
+// ==> emits
+const emits = defineEmits<{
+  (e: 'refreh'): void;
+  (e: 'rightButtonTap', data?: string): void;
+}>();
+
+const router = useRouter();
+const isBangScreen =
+  window && window.screen.height >= 812 && window.devicePixelRatio >= 2;
+const state = reactive<StateProps>({
+  height: props.showStatusBar ? (isBangScreen ? '88px' : '64px') : '44px',
+  opacity: 0,
+  innerBackgroundColor: props.gradientColor
+    ? 'transparent'
+    : props.backgroundColor,
+});
+
+// ==> events
+const onBackButtonTap = () => {
+  if (router.currentRoute.value.query.appBack === '1') {
+    jsBridge.nativeBack();
+  } else {
+    if (props.onBack) {
+      props.onBack();
+    } else {
+      router.back();
+    }
+  }
+};
+
+window.addEventListener('scroll', (e) => {
+  e = e || window.event;
+  const scrollTop =
+    document.body.scrollTop || document.documentElement.scrollTop;
+  const target = 100;
+  if (scrollTop < target) {
+    state.opacity = scrollTop / target;
+  } else {
+    state.opacity = 1;
+  }
+});
+// data
+const { height, opacity, innerBackgroundColor } = toRefs(state);
+</script>
+
 <template>
   <div class="app-header">
     <!-- 占位元素 -->
@@ -30,7 +117,12 @@
             @click="onBackButtonTap"
           />
         </div>
-        <div class="app-header__title">
+        <div
+          class="app-header__title"
+          :style="{
+            opacity: hideTitleInTop ? opacity : 1,
+          }"
+        >
           {{ title }}
           <slot />
         </div>
@@ -64,86 +156,6 @@
     </div>
   </div>
 </template>
-
-<script setup lang="ts">
-import { reactive, toRefs } from 'vue';
-import { useRouter } from 'vue-router';
-
-import IconBackButtonDark from './images/back_btn_dark.png';
-import IconBackButtonLight from './images/back_btn_light.png';
-import IconRefreshButtonDark from './images/refresh_btn_dark.png';
-import IconRefreshButtonLight from './images/refresh_btn_light.png';
-
-interface StateProps {
-  height: string;
-  opacity: number;
-  innerBackgroundColor: string;
-}
-
-interface IProps {
-  title?: string;
-  type?: 'APP' | 'H5';
-  theme?: 'dark' | 'light';
-  showPlace?: boolean;
-  showBack?: boolean;
-  showStatusBar?: boolean;
-  showRefresh?: boolean;
-  rightButtonText?: string;
-  backgroundColor?: string;
-  gradientColor?: string;
-  onBack?: () => void;
-}
-// ==> props
-const props = withDefaults(defineProps<IProps>(), {
-  type: 'APP',
-  theme: 'dark',
-  showPlace: false,
-  showBack: false,
-  showStatusBar: true,
-  showRefresh: false,
-  backgroundColor: '#FFFFFF',
-});
-
-// ==> emits
-const emits = defineEmits<{
-  (e: 'refreh'): void;
-  (e: 'rightButtonTap', data?: string): void;
-}>();
-
-const router = useRouter();
-const isBangScreen =
-  window && window.screen.height >= 812 && window.devicePixelRatio >= 2;
-const state = reactive<StateProps>({
-  height: props.showStatusBar ? (isBangScreen ? '88px' : '64px') : '44px',
-  opacity: 0,
-  innerBackgroundColor: props.gradientColor
-    ? 'transparent'
-    : props.backgroundColor,
-});
-
-// ==> events
-const onBackButtonTap = () => {
-  if (props.onBack) {
-    props.onBack();
-  } else {
-    router.back();
-  }
-};
-
-window.addEventListener('scroll', (e) => {
-  e = e || window.event;
-  const scrollTop =
-    document.body.scrollTop || document.documentElement.scrollTop;
-  const target = 100;
-  if (scrollTop < target) {
-    state.opacity = scrollTop / target;
-  } else {
-    state.opacity = 1;
-  }
-});
-// data
-const { height, opacity, innerBackgroundColor } = toRefs(state);
-</script>
 
 <style lang="less" scoped>
 @titleBarHeight: 44px;
