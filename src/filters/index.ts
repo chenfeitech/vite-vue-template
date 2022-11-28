@@ -1,20 +1,16 @@
 /*
- * @Author: your name
- * @Date: 2021-06-07 17:24:12
- * @LastEditTime: 2021-11-30 20:21:47
+ * @Author: Lee
+ * @Date: 2022-11-25 17:11:39
  * @LastEditors: Lee
- * @Description: In User Settings Edit
+ * @LastEditTime: 2022-11-28 09:45:33
+ * @Description:
  */
-
 export interface FiltersProps {
   isBangScreen: () => boolean;
 }
 const filters: FiltersProps = {
   isBangScreen: () => {
-    return (
-      window && window.screen.height >= 812 && window.devicePixelRatio >= 2
-    );
+    return window && window.screen.height >= 812 && window.devicePixelRatio >= 2;
   },
 };
 export default filters;
-

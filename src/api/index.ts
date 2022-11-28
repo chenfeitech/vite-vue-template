@@ -1,12 +1,14 @@
 /*
- * @Author: Li-HONGYAO
- * @Date: 2021-03-08 20:50:30
- * @LastEditTime: 2021-11-30 20:21:11
+ * @Author: Lee
+ * @Date: 2022-11-25 16:21:10
  * @LastEditors: Lee
+ * @LastEditTime: 2022-11-25 17:53:13
  * @Description:
  */
 
-import * as test from "./test";
+import * as user from "./user";
+import * as test from './test';
 export default {
-  test,
+  user,
+  test
 };

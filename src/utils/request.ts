@@ -1,24 +1,44 @@
 /*
- * @Author: Li-HONGYAO
- * @Date: 2021-03-27 10:14:34
- * @LastEditTime: 2021-12-30 19:05:05
+ * @Author: Lee
+ * @Date: 2022-11-25 15:46:20
  * @LastEditors: Lee
+ * @LastEditTime: 2022-11-25 17:01:21
  * @Description:
  */
-import router from '@/router';
-import axios, { AxiosRequestConfig, AxiosResponse } from 'axios';
-import Cookie from 'lg-cookie';
-import Tools from 'lg-tools';
-import Schemes from 'lg-schemes';
-import { Toast } from 'vant';
 
-const service = axios.create({
-  baseURL: import.meta.env.VITE_APP_HOST as string,
-  timeout: 20000,
+import axios from "axios";
+import type { AxiosInstance, AxiosError, AxiosRequestConfig, AxiosResponse } from "axios";
+import Tools from "lg-tools";
+import Cookie from "lg-cookie";
+import { Toast } from "vant";
+
+/********************
+ ** 基础类型
+ ********************/
+export interface BaseResponse<T = any> {
+  code: number;
+  data: T;
+  page: {
+    pageNo: number;
+    pageSize: number;
+    pages: number;
+    total: number;
+  };
+  msg: string;
+  success: boolean;
+}
+
+/********************
+ ** 创建axios实例
+ ********************/
+const service: AxiosInstance = axios.create({
+  baseURL: import.meta.env.VITE_APP_HOST,
+  timeout: 20 * 1000,
 });
 
-// 请求拦截
-
+/********************
+ ** 请求拦截器
+ ********************/
 service.interceptors.request.use(
   (config: AxiosRequestConfig) => {
     // => 如果是GET请求追加时间戳
@@ -29,59 +49,85 @@ service.interceptors.request.use(
       };
     }
     // => 配置请求头
-    const token = Cookie.get<string>('AUTHORIZATION_TOKEN');
+    const token = Cookie.get<string>("AUTHORIZATION_TOKEN");
     // => 确认平台（如果同时开发支付宝和微信公众号则需要传入来源/和后端配合商议对应平台的source值）(MP)
-    let source = 'H5';
+    let source = "H5";
     switch (Tools.getEnv()) {
-      case 'alipay':
-        source = 'MP_WEIXIN';
+      case "alipay":
+        source = "MP_WEIXIN";
         break;
-      case 'weixin':
-        source = 'MP_ALIPAY ';
+      case "weixin":
+        source = "MP_ALIPAY";
         break;
       default:
     }
     config.headers = {
-      'Content-Type': 'application/json',
-      Authorization: token ? `Bearer ${token}` : '',
+      "Content-Type": "application/json",
+      Authorization: token ? `Bearer ${token}` : "",
       source,
     };
     return config;
   },
-  (error) => {
-    return Promise.reject(error);
-  }
+  (error: AxiosError) => Promise.reject(error)
 );
 
-// 响应拦截
+/********************
+ ** 响应拦截器
+ ********************/
 service.interceptors.response.use(
   (response: AxiosResponse) => {
-    // 清除toast
     Toast.clear();
-    const { code, msg } = response.data;
-    switch (code) {
-      case 0:
-        return response.data;
-      case 401:
-        // token失效的处理方案
-        // 场景1：APP
-        /*
-        Schemes.jump("/login", {
-          url: encodeURIComponent(window.location.href),
-        });*/
-        // 场景2：公众号或者支付宝
-        router.replace('/auth/jump');
-        return response.data;
-      default:
-        Toast.fail(msg);
-        return response.data;
+    const { code, message } = response.data;
+    if (code === 0) {
+      return response.data;
+    } else {
+      Toast(message);
+      return Promise.reject(new Error(message));
     }
   },
-  (error: any) => {
-    console.log(error);
-    /timeout/.test(error.message) && Toast('请求超时，请检查网络');
+  (error: AxiosError) => {
+    // 处理 HTTP 网络错误
+    let message = "";
+    // HTTP 状态码
+    const status = error.response?.status;
+    switch (status) {
+      case 401:
+        message = "token 失效，请重新登录";
+        break;
+      case 403:
+        message = "拒绝访问";
+        break;
+      case 404:
+        message = "请求地址错误";
+        break;
+      case 500:
+        message = "服务器故障";
+        break;
+      default:
+        message = "网络连接故障";
+    }
+    Toast(message);
     return Promise.reject(error);
   }
 );
 
-export default service;
+/********************
+ ** 导出请求方法（重点）
+ ********************/
+
+export const http = {
+  get<T = any>(url: string, config?: AxiosRequestConfig): Promise<BaseResponse<T>> {
+    return service.get(url, config);
+  },
+  post<T = any>(url: string, data?: object, config?: AxiosRequestConfig): Promise<BaseResponse<T>> {
+    return service.post(url, data, config);
+  },
+
+  put<T = any>(url: string, data?: object, config?: AxiosRequestConfig): Promise<BaseResponse<T>> {
+    return service.put(url, data, config);
+  },
+
+  delete<T = any>(url: string, config?: AxiosRequestConfig): Promise<BaseResponse<T>> {
+    return service.delete(url, config);
+  },
+};

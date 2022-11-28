@@ -1,41 +1,41 @@
 <!--
  * @Author: Li-HONGYAO
  * @Date: 2021-06-01 20:00:49
- * @LastEditTime: 2021-11-30 21:29:55
+ * @LastEditTime: 2022-11-25 20:32:08
  * @LastEditors: Lee
  * @Description: 
 -->
 
 <script setup lang="ts">
-import Tools from 'lg-tools';
-import { reactive, toRefs } from 'vue';
+import Tools from "lg-tools";
+import { reactive, toRefs } from "vue";
 
 interface StateProps {
-  platform: 'ios' | 'android' | 'weixin' | 'alipay' | 'unknown';
+  platform: "ios" | "android" | "weixin" | "alipay" | "unknown";
   ani: string;
 }
 
 const state = reactive<StateProps>({
   platform: Tools.getEnv(),
-  ani: '',
+  ani: "",
 });
 
 // events
 const onDownload = () => {
   switch (state.platform) {
-    case 'ios':
-      window.location.href = 'Download url for iOS.';
+    case "ios":
+      window.location.href = "Download url for iOS.";
       break;
-    case 'android':
-      window.location.href = 'Download url for Android.';
+    case "android":
+      window.location.href = "Download url for Android.";
       break;
-    case 'weixin':
-      state.ani = 'ani';
+    case "weixin":
+      state.ani = "ani";
       setTimeout(() => {
-        state.ani = '';
+        state.ani = "";
       }, 1000);
       break;
-    case 'unknown':
+    case "unknown":
       break;
   }
 };
@@ -45,7 +45,6 @@ const onOpenApp = () => {
 };
 
 const { platform, ani } = toRefs(state);
-
 </script>
 
 <template>
@@ -56,30 +55,17 @@ const { platform, ani } = toRefs(state);
     <div class="wrap">
       <img src="./images/icon_logo.png" class="icon-70x70" />
       <div class="platform">
-        <img
-          v-if="platform === 'android'"
-          src="./images/icon_android.png"
-          class="icon-env"
-        />
-        <img
-          v-if="platform === 'ios'"
-          src="./images/icon_ios.png"
-          class="icon-env"
-        />
+        <img v-if="platform === 'android'" src="./images/icon_android.png" class="icon-env" />
+        <img v-if="platform === 'ios'" src="./images/icon_ios.png" class="icon-env" />
         <span class="app-name">多多汇宝</span>
       </div>
       <div class="download-button" @click="onDownload">点击安装</div>
-      <div v-if="platform !== 'weixin'" class="open-tips" @click="onOpenApp">
-        已安装?立即打开
-      </div>
+      <div v-if="platform !== 'weixin'" class="open-tips" @click="onOpenApp">已安装?立即打开</div>
     </div>
     <!-- 空白符：如果背景图片没有撑起页面高度，则需要占位容器，占位容器背景和背景图最底部的色值保持一致 -->
     <div class="space flex-1" style="background: rgba(244, 197, 60)"></div>
     <!-- 微信环境文案提示 -->
-    <img
-      :class="`tips ${platform === 'weixin' ? 'show' : ''} ${ani}`"
-      src="./images/tips.png"
-    />
+    <img :class="`tips ${platform === 'weixin' ? 'show' : ''} ${ani}`" src="./images/tips.png" />
   </div>
 </template>
 

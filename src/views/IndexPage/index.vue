@@ -1,7 +1,7 @@
 <!--
  * @Author: Li-HONGYAO
  * @Date: 2021-05-21 23:26:16
- * @LastEditTime: 2021-12-30 19:12:40
+ * @LastEditTime: 2022-11-28 09:47:51
  * @LastEditors: Lee
  * @Description: 
 -->
@@ -15,16 +15,9 @@
           <div class="f14 lh-20 f-400">我的金币</div>
           <div class="flex-h-start">
             <span class="f30 lh-40 f-600 ff-DIN-Bold mr-8">1093100</span>
-            <div
-              class="py-3 px-11 border rounded-10 flex-h-start"
-              style="border-color: #ffffff50; background: #ffffff20"
-              @click="$router.push('/gold-coin-withdraw')"
-            >
+            <div class="py-3 px-11 border rounded-10 flex-h-start" style="border-color: #ffffff50; background: #ffffff20" @click="$router.push('/gold-coin-withdraw')">
               <span class="f14 color-FFFFFF lh-20 mr-3">提现</span>
-              <img
-                class="icon-arrow-right"
-                src="../../assets/icon_arrow_right_1.png"
-              />
+              <img class="icon-arrow-right" src="../../assets/icon_arrow_right_1.png" />
             </div>
           </div>
           <div class="f11 lh-15" style="color: #ffffff66">约&nbsp;109.31元</div>
@@ -34,24 +27,14 @@
       <!-- 签到 -->
       <div class="mt-18 bg-FFFFFF rounded-10 p-16">
         <div class="flex-h-between">
-          <div
-            class="sign-in-item f10 lh-14 flex-v-center rounded-4"
-            :class="{ checked: !!item.status }"
-            v-for="(item, index) in signIn"
-            :key="index"
-          >
+          <div class="sign-in-item f10 lh-14 flex-v-center rounded-4" :class="{ checked: !!item.status }" v-for="(item, index) in signIn" :key="index">
             <div class="">{{ item.label }}</div>
             <div class="value icon-26x26 flex-h-center mt-7 color-FFFFFF">
               {{ item.value }}
             </div>
           </div>
         </div>
-        <div
-          class="sign-in-button f16 flex-h-center color-FFFFFF mx-auto mt-21"
-          @click="onSignIn"
-        >
-          立即签到
-        </div>
+        <div class="sign-in-button f16 flex-h-center color-FFFFFF mx-auto mt-21" @click="onSignIn">立即签到</div>
       </div>
       <!-- 多多福宝 -->
       <div class="pt-11 px-12 pb-21 bg-FFFFFF rounded-10 mt-15">
@@ -66,10 +49,7 @@
         </div>
       </div>
       <!-- 基础任务 -->
-      <div
-        v-if="taskConfigs"
-        class="pt-11 px-12 pb-21 bg-FFFFFF rounded-10 mt-15"
-      >
+      <div v-if="taskConfigs" class="pt-11 px-12 pb-21 bg-FFFFFF rounded-10 mt-15">
         <div class="title f16 lh-23 f-600 position-relative mb-18">
           <div class="position-relative zIndex-1">基础任务</div>
           <div class="bar" />
@@ -84,17 +64,11 @@
               <img class="icon-15x15" src="../../assets/icon_gold_coin.png" />
             </div>
             <div class="f12 lh-17">
-              <span class="mr-6" style="color: #a2a2a2">
-                {{ taskConfigs.videoSubTitle }}</span
-              >
-              <span style="color: #ffa9a9"
-                >0/ {{ taskConfigs.videoCount }}</span
-              >
+              <span class="mr-6" style="color: #a2a2a2"> {{ taskConfigs.videoSubTitle }}</span>
+              <span style="color: #ffa9a9">0/ {{ taskConfigs.videoCount }}</span>
             </div>
           </div>
-          <div class="action-button flex-h-center f12 color-FFFFFF rounded-20">
-            去观看
-          </div>
+          <div class="action-button flex-h-center f12 color-FFFFFF rounded-20">去观看</div>
         </div>
         <!-- 邀请好友 -->
         <div class="flex-h-between mb-26">
@@ -109,9 +83,7 @@
               {{ taskConfigs.inviteSubTitle }}
             </div>
           </div>
-          <div class="action-button flex-h-center f12 color-FFFFFF rounded-20">
-            去邀请
-          </div>
+          <div class="action-button flex-h-center f12 color-FFFFFF rounded-20">去邀请</div>
         </div>
         <!-- 每日宝箱 -->
         <div class="flex-h-between">
@@ -125,32 +97,23 @@
               {{ taskConfigs.treasureSubTitle }}
             </div>
           </div>
-          <div
-            class="action-button flex-h-center f12 color-FFFFFF rounded-20"
-            :class="{ disabled: !!taskConfigs.treasureStatus }"
-          >
-            开宝箱
-          </div>
+          <div class="action-button flex-h-center f12 color-FFFFFF rounded-20" :class="{ disabled: !!taskConfigs.treasureStatus }">开宝箱</div>
         </div>
       </div>
       <!-- 运营位置 -->
-      <div
-        class="mt-15 rounded-10 flex-h-center f13 lh-66"
-        style="background: #dadada; color: #41414150"
-      >
-        运营位置
-      </div>
+      <div class="mt-15 rounded-10 flex-h-center f13 lh-66" style="background: #dadada; color: #41414150">运营位置</div>
       <!-- 占位 -->
       <div class="space-50"></div>
       <div style="height: 3000px"></div>
     </van-pull-refresh>
   </div>
 </template>
+
 <!-- 脚本文件 -->
 <script setup lang="ts">
-import api from '@/api';
-import { Toast } from 'vant';
-import { onMounted, reactive, toRefs } from 'vue';
+import api from "@/api";
+import { Toast } from "vant";
+import { onMounted, reactive, toRefs } from "vue";
 
 // ==> define props
 interface SignInItemProps {
@@ -159,46 +122,35 @@ interface SignInItemProps {
   status: boolean /** 签到状态 */;
 }
 
-interface TaskResponseProps {
-  signStatus: number;
-  count: number;
-  amount: number;
-  videoCount: number;
-  residueCount: number;
-  videoSubTitle: string;
-  inviteSubTitle: string;
-  treasureSubTitle: string;
-  treasureStatus: number;
-}
-
 interface StateProps {
   isRefreshing: boolean;
   signIn: SignInItemProps[];
-  taskConfigs: TaskResponseProps | null;
+  taskConfigs: API.TaskResponseProps | null;
 }
 
 // ==> state
 const state = reactive<StateProps>({
   isRefreshing: false,
   signIn: [
-    { label: '第1天', value: 30, status: true },
-    { label: '第2天', value: 30, status: true },
-    { label: '第3天', value: 30, status: false },
-    { label: '第4天', value: 30, status: false },
-    { label: '第5天', value: 30, status: false },
-    { label: '第6天', value: 30, status: false },
-    { label: '第7天', value: 30, status: false },
+    { label: "第1天", value: 30, status: true },
+    { label: "第2天", value: 30, status: true },
+    { label: "第3天", value: 30, status: false },
+    { label: "第4天", value: 30, status: false },
+    { label: "第5天", value: 30, status: false },
+    { label: "第6天", value: 30, status: false },
+    { label: "第7天", value: 30, status: false },
   ],
   taskConfigs: null,
 });
 
 // ==> methods
-const getTaskConfigs = () => {
-  api.test.task<GD.BaseResponse<TaskResponseProps>>().then((res) => {
-    if (res && res.code === 0) {
-      state.taskConfigs = res.data;
-    }
-  });
+const getTaskConfigs = async () => {
+  try {
+    const resp = await api.test.task();
+    state.taskConfigs = resp.data;
+  } catch (error) {
+    console.log(error);
+  }
 };
 // ==> events
 const onRefresh = () => {
@@ -207,7 +159,7 @@ const onRefresh = () => {
   }, 500);
 };
 const onSignIn = () => {
-  Toast('签到成功');
+  Toast("签到成功");
 };
 // ==> life circles
 onMounted(() => {
@@ -218,17 +170,10 @@ onMounted(() => {
 const { isRefreshing, signIn, taskConfigs } = toRefs(state);
 </script>
 
-
-
 <!-- 样式文件 -->
 <style lang="less" scoped>
 .tab-page {
-  background: linear-gradient(
-    to bottom,
-    #fd2e3e 15%,
-    #f4f4f4 50%,
-    #f4f4f4 100%
-  );
+  background: linear-gradient(to bottom, #fd2e3e 15%, #f4f4f4 50%, #f4f4f4 100%);
 }
 .icon-arrow-right {
   width: 5px;
@@ -248,7 +193,7 @@ const { isRefreshing, signIn, taskConfigs } = toRefs(state);
     background: #ff737e;
   }
   .value {
-    background: url('../../assets/sign_in_bg.png') no-repeat center center;
+    background: url("../../assets/sign_in_bg.png") no-repeat center center;
     background-size: cover;
   }
 }
@@ -287,13 +232,13 @@ const { isRefreshing, signIn, taskConfigs } = toRefs(state);
     top: 3px;
   }
   &:nth-child(1) {
-    background: url('../../assets/ddfb_1.png');
+    background: url("../../assets/ddfb_1.png");
   }
   &:nth-child(2) {
-    background: url('../../assets/ddfb_2.png');
+    background: url("../../assets/ddfb_2.png");
   }
   &:nth-child(3) {
-    background: url('../../assets/ddfb_3.png');
+    background: url("../../assets/ddfb_3.png");
   }
 }
 .action-button {

@@ -2,8 +2,16 @@
  * @Author: Lee
  * @Date: 2021-11-03 21:54:17
  * @LastEditors: Lee
- * @LastEditTime: 2021-11-21 20:22:52
+ * @LastEditTime: 2022-11-25 21:09:41
 -->
+
+<script setup lang="ts">
+// ==> props
+const props = withDefaults(defineProps<{ data?: API.ListItemProps }>(), {
+  data: () => ({} as API.ListItemProps),
+});
+</script>
+
 <template>
   <div class="pl-25 pr-22">
     <div class="pt-19 pb-13 border-bottom" style="border-color: #97979720">
@@ -14,21 +22,15 @@
             <div class="f15 f-500 mr-14 lh-20" style="color: #414141">
               {{ data.title }}
             </div>
-            <div v-if="data.status === 1" class="status flex-h-center">
-              提现成功
-            </div>
-            <div v-if="data.status === 0" class="status flex-h-center fail">
-              提现失败
-            </div>
+            <div v-if="data.status === 1" class="status flex-h-center">提现成功</div>
+            <div v-if="data.status === 0" class="status flex-h-center fail">提现失败</div>
           </div>
           <div class="f13 lh-19 mt-3" style="color: #929292">
             {{ data.date }}
           </div>
         </div>
         <div class="flex-h-start">
-          <span class="f21 f-500 ff-DIN-Bold" style="color: #606060"
-            >-{{ data.count }}</span
-          >
+          <span class="f21 f-500 ff-DIN-Bold" style="color: #606060">-{{ data.count }}</span>
           <img class="icon-15x15 ml-5" src="../assets/icon_gold_coin.png" />
         </div>
       </div>
@@ -37,22 +39,6 @@
     </div>
   </div>
 </template>
-
-<script lang="ts">
-import { defineComponent, PropType } from "vue";
-
-
-export default defineComponent({
-  props: {
-    data: {
-      type: Object as PropType<GD.ListItemProps>,
-      default: {},
-    },
-  },
-  setup() {},
-});
-</script>
-
 
 <style lang="less" scoped>
 .status {

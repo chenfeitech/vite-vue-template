@@ -1,12 +1,11 @@
 /*
- * @Author: your name
- * @Date: 2021-06-07 16:31:16
- * @LastEditTime: 2021-11-30 20:21:35
+ * @Author: Lee
+ * @Date: 2022-11-25 17:12:47
  * @LastEditors: Lee
- * @Description: In User Settings Edit
+ * @LastEditTime: 2022-11-25 17:12:48
+ * @Description:
  */
-
-import { App } from "vue";
+import type { App } from "vue";
 
 export default (app: App) => {
   // 图片懒加载

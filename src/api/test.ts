@@ -1,35 +1,28 @@
 /*
- * @Author: Li-HONGYAO
- * @Date: 2021-05-24 13:40:52
- * @LastEditTime: 2021-11-30 20:21:15
+ * @Author: Lee
+ * @Date: 2022-11-25 17:52:59
  * @LastEditors: Lee
+ * @LastEditTime: 2022-11-25 21:15:20
  * @Description:
  */
-
-import request from '../utils/request';
-
-
+import { http } from "@/utils/request";
 
 // 首页 - 任务
-export function task<T>() {
-  return request.post<T>('/test/task');
+export function task() {
+  return http.post<API.TaskResponseProps>("/test/task");
 }
 
 // 金币明细
-export function goldCoins<T>(data: { page: number; pageSize: number }) {
-  return request.post<T>('/test/goldCoins', data);
+export function goldCoins(data: { page: number; pageSize: number }) {
+  return http.post<API.ListItemProps[]>("/test/goldCoins", data);
 }
 
 // 记录
-export function records<T>(data: { page: number; pageSize: number }) {
-  return request.post('/test/records', data);
+export function records(data: { page: number; pageSize: number }) {
+  return http.post<API.RecordItemProps[]>("/test/records", data);
 }
 
 // 好友列表
-export function friends<T>(data: {
-  page: number;
-  pageSize: number;
-  queryFriendType: number /** 查询好友的类型 1, 直邀 2, 间接 */;
-}) {
-  return request.post<T>('/test/queryFriends', data);
+export function friends(data: { page: number; pageSize: number; queryFriendType: number /** 查询好友的类型 1, 直邀 2, 间接 */ }) {
+  return http.post<API.FriendsItemType[]>("/test/queryFriends", data);
 }

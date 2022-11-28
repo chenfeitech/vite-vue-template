@@ -2,96 +2,13 @@
  * @Author: Lee
  * @Date: 2021-11-03 11:42:53
  * @LastEditors: Lee
- * @LastEditTime: 2021-11-30 20:43:22
+ * @LastEditTime: 2022-11-25 20:55:02
 -->
 
-<template>
-  <div class="page">
-    <!-- 导航栏 -->
-    <app-header
-      v-if="env !== 'weixin'"
-      title="金币提现"
-      rightButtonText="金币明细"
-      @rightButtonTap="$router.push('/gold-coin-details')"
-      :showBack="true"
-      :show-status-bar="false"
-    />
-    <!-- 内容 -->
-    <div class="mt-14 bg-FFFFFF px-17 pt-16 pb-35">
-      <!-- 金币余额 -->
-      <div
-        class="flex-h-start pb-21 border-bottom"
-        style="border-color: #eeeeee"
-        @click="$router.push('/gold-coin-details')"
-      >
-        <img
-          class="icon-60x60 flex-shrink mr-16"
-          src="../../assets/icon_gold.png"
-        />
-        <div>
-          <div class="f13 lh-20 mb-10" style="color: #00000050">
-            金币余额 1093100
-          </div>
-          <div class="flex-h-start lh-20" style="color: #ff6634">
-            <span class="f25 ff-DIN-Bold">109.31</span>
-            <span class="f16 ml-3">元</span>
-          </div>
-        </div>
-      </div>
-      <!-- 提现方式 -->
-      <div class="mt-17 pb-14 border-bottom" style="border-color: #97979720">
-        <div class="f14 lh-20 mb-13">提现方式</div>
-        <div class="flex-h-between">
-          <div class="pay-type-button px-16 flex-h-start">
-            <img class="icon-20x20 mr-10" src="../../assets/icon_alipay.png" />
-            <span class="flex-1">支付宝</span>
-            <img class="icon-12x12" src="../../assets/icon_checked.png" />
-          </div>
-          <div class="pay-type-button px-16 flex-h-start">
-            <img class="icon-weixin mr-10" src="../../assets/icon_weixin.png" />
-            <span class="flex-1">微信钱包</span>
-            <img class="icon-12x12" src="../../assets/icon_checked.png" />
-          </div>
-        </div>
-        <div class="mt-19 flex-h-between">
-          <div class="f14 lh-20">
-            <span class="mr-8">支付宝账号</span>
-            <span style="color: #3174eb">未绑定</span>
-          </div>
-          <div class="bind-button f12 flex-h-center lh-17">绑定账号</div>
-        </div>
-      </div>
-      <!-- 提现金额 -->
-      <div class="mt-18">
-        <div class="f14 lh-20 mb-13">提现方式</div>
-        <div class="amount-list">
-          <div
-            v-for="(item, index) in config.amounts"
-            class="item"
-            @click="selectedIndex = index"
-            :key="index"
-            :class="{ checked: selectedIndex === index }"
-          >
-            <span class="ff-DIN-Bold">{{ item.money }}</span>
-            <span class="f-400">元</span>
-          </div>
-        </div>
-      </div>
-      <!-- 提现按钮 -->
-      <div class="withdraw-button rounded-25 flex-h-center" @click="onSubmit">
-        立即提现
-      </div>
-      <!-- 提现说明 -->
-      <div class="f14 lh-20 mb-13">提现方式</div>
-      <div v-html="config.desc" class="f11 lh-16" style="color: #9e9e9e"></div>
-    </div>
-  </div>
-</template>
-
 <script setup lang="ts">
-import { reactive, toRefs } from 'vue';
-import AppHeader from 'comps/@lgs/AppHeader/AppHeader.vue';
-import Tools from 'lg-tools';
+import { reactive, toRefs } from "vue";
+import AppHeader from "comps/@lgs/AppHeader/AppHeader.vue";
+import Tools from "lg-tools";
 
 interface ConfigProps {
   desc: string;
@@ -134,6 +51,65 @@ const onSubmit = () => {
 
 const { selectedIndex, config } = toRefs(state);
 </script>
+
+<template>
+  <div class="page">
+    <!-- 导航栏 -->
+    <app-header v-if="env !== 'weixin'" title="金币提现" rightButtonText="金币明细" @rightButtonTap="$router.push('/gold-coin-details')" :showBack="true" :show-status-bar="false" />
+    <!-- 内容 -->
+    <div class="mt-14 bg-FFFFFF px-17 pt-16 pb-35">
+      <!-- 金币余额 -->
+      <div class="flex-h-start pb-21 border-bottom" style="border-color: #eeeeee" @click="$router.push('/gold-coin-details')">
+        <img class="icon-60x60 flex-shrink mr-16" src="../../assets/icon_gold.png" />
+        <div>
+          <div class="f13 lh-20 mb-10" style="color: #00000050">金币余额 1093100</div>
+          <div class="flex-h-start lh-20" style="color: #ff6634">
+            <span class="f25 ff-DIN-Bold">109.31</span>
+            <span class="f16 ml-3">元</span>
+          </div>
+        </div>
+      </div>
+      <!-- 提现方式 -->
+      <div class="mt-17 pb-14 border-bottom" style="border-color: #97979720">
+        <div class="f14 lh-20 mb-13">提现方式</div>
+        <div class="flex-h-between">
+          <div class="pay-type-button px-16 flex-h-start">
+            <img class="icon-20x20 mr-10" src="../../assets/icon_alipay.png" />
+            <span class="flex-1">支付宝</span>
+            <img class="icon-12x12" src="../../assets/icon_checked.png" />
+          </div>
+          <div class="pay-type-button px-16 flex-h-start">
+            <img class="icon-weixin mr-10" src="../../assets/icon_weixin.png" />
+            <span class="flex-1">微信钱包</span>
+            <img class="icon-12x12" src="../../assets/icon_checked.png" />
+          </div>
+        </div>
+        <div class="mt-19 flex-h-between">
+          <div class="f14 lh-20">
+            <span class="mr-8">支付宝账号</span>
+            <span style="color: #3174eb">未绑定</span>
+          </div>
+          <div class="bind-button f12 flex-h-center lh-17">绑定账号</div>
+        </div>
+      </div>
+      <!-- 提现金额 -->
+      <div class="mt-18">
+        <div class="f14 lh-20 mb-13">提现方式</div>
+        <div class="amount-list">
+          <div v-for="(item, index) in config.amounts" class="item" @click="selectedIndex = index" :key="index" :class="{ checked: selectedIndex === index }">
+            <span class="ff-DIN-Bold">{{ item.money }}</span>
+            <span class="f-400">元</span>
+          </div>
+        </div>
+      </div>
+      <!-- 提现按钮 -->
+      <div class="withdraw-button rounded-25 flex-h-center" @click="onSubmit">立即提现</div>
+      <!-- 提现说明 -->
+      <div class="f14 lh-20 mb-13">提现方式</div>
+      <div v-html="config.desc" class="f11 lh-16" style="color: #9e9e9e"></div>
+    </div>
+  </div>
+</template>
 
 <style lang="less" scoped>
 .pay-type-button {

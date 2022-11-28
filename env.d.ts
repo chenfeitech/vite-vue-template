@@ -1,19 +1,12 @@
 /*
- * @Author: Li-HONGYAO
- * @Date: 2021-05-22 10:01:11
- * @LastEditTime: 2022-04-19 14:12:28
+ * @Author: Lee
+ * @Date: 2022-11-25 15:33:31
  * @LastEditors: Lee
- * @Description:
+ * @LastEditTime: 2022-11-25 17:01:14
+ * @Description: 
  */
-
 /// <reference types="vite/client" />
 
-declare module '*.vue' {
-  import { DefineComponent } from 'vue';
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/ban-types
-  const component: DefineComponent<{}, {}, any>;
-  export default component;
-}
 interface ImportMetaEnv {
   // -- 当前环境
   readonly VITE_APP_ENV: string;

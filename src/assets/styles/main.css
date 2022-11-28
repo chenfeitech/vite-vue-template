@@ -1,3 +1,5 @@
+@import './base.css';
+
 /* 动画 */
 @keyframes ani-breathing { from { transform: scale(.85);} to { transform: scale(1);} }
 @keyframes ani-move-to-right  { 0%, 50% { left: -100%; } 100% { left: 100%; } }

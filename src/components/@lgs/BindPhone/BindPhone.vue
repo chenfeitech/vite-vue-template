@@ -1,53 +1,3 @@
-<!--
- * @Author: Lee
- * @Date: 2021-08-20 12:39:22
- * @LastEditors: Lee
- * @LastEditTime: 2021-08-31 11:09:19
--->
-<!--
- * @Author: Lee
- * @Date: 2021-08-21 15:19:14
- * @LastEditors: Lee
- * @LastEditTime: 2021-08-26 18:02:22
--->
-<template>
-  <div class="bind-phone">
-    <img class="logo" src="./images/logo.png" />
-    <div class="mt-50">
-      <van-field
-        v-model="phone"
-        type="tel"
-        maxlength="11"
-        clearable
-        placeholder="请输入手机号码"
-        :border="false"
-      />
-      <van-field
-        v-model="code"
-        type="digit"
-        maxlength="6"
-        clearable
-        placeholder="请输入验证码"
-        :border="false"
-      >
-        <template #button>
-          <div
-            v-if="countdown === bounding"
-            @click="onSendMsg"
-            :style="{ color: canSendCode ? '#FF8F00' : '#FBD3A1' }"
-          >
-            发送验证码
-          </div>
-          <div v-else style="color: #fbd3a1">{{ countdown }}S后重新获取</div>
-        </template>
-      </van-field>
-    </div>
-    <div class="bind-btn" :class="{ can: canBind }" @click="onBind">
-      绑定手机号
-    </div>
-  </div>
-</template>
-
 <script lang="ts">
 import api from "@/api";
 import Bus from "lg-bus";
@@ -55,14 +5,7 @@ import Cookie from "lg-cookie";
 import Storage from "lg-storage";
 import Validator from "lg-validator";
 import { Toast } from "vant";
-import {
-  defineComponent,
-  onUnmounted,
-  reactive,
-  toRefs,
-  watch,
-  watchEffect,
-} from "vue";
+import { defineComponent, onUnmounted, reactive, toRefs, watch, watchEffect } from "vue";
 interface StateProps {
   phone: string;
   code: string;
@@ -144,7 +87,7 @@ export default defineComponent({
         //     if (res && res.code === 0) {
         //       Bus.$emit("BIND_PHONE_TO_INDEX");
         //       Bus.$emit("BINDED_PHONE");
-        
+
         //       Cookie.set("AUTHORIZATION_TOKEN", res.data.token);
         //       Storage.set("HAS_BIND_PHONE", true);
         //     }
@@ -181,6 +124,23 @@ export default defineComponent({
   },
 });
 </script>
+
+<template>
+  <div class="bind-phone">
+    <img class="logo" src="./images/logo.png" />
+    <div class="mt-50">
+      <van-field v-model="phone" type="tel" maxlength="11" clearable placeholder="请输入手机号码" :border="false" />
+      <van-field v-model="code" type="digit" maxlength="6" clearable placeholder="请输入验证码" :border="false">
+        <template #button>
+          <div v-if="countdown === bounding" @click="onSendMsg" :style="{ color: canSendCode ? '#FF8F00' : '#FBD3A1' }">发送验证码</div>
+          <div v-else style="color: #fbd3a1">{{ countdown }}S后重新获取</div>
+        </template>
+      </van-field>
+    </div>
+    <div class="bind-btn" :class="{ can: canBind }" @click="onBind">绑定手机号</div>
+  </div>
+</template>
+
 <style lang="less" scoped>
 .bind-phone {
   height: 100vh;
@@ -188,8 +148,8 @@ export default defineComponent({
   padding: 50px 30px 80px;
 }
 .logo {
-  width: 186px;
-  height: 62px;
+  width: 100px;
+  height: 100px;
   display: block;
   margin: 0 auto;
 }
@@ -210,7 +170,8 @@ export default defineComponent({
 .bind-btn {
   margin-top: 50px;
   height: 44px;
-  background: #ffeebb;
+  background: red;
+  color: #fff;
   border-radius: 4px;
 
   display: flex;
@@ -219,11 +180,10 @@ export default defineComponent({
 
   font-size: 16px;
   font-weight: 500;
-  color: #a69b7d;
+  opacity: 0.5;
 
   &.can {
-    background: #ffca2a;
-    color: #222222;
+    opacity: 1;
   }
 }
 </style>

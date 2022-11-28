@@ -1,12 +1,12 @@
 <script setup lang="ts">
-import { reactive, toRefs } from 'vue';
-import { useRouter } from 'vue-router';
-import jsBridge from 'lg-js-bridge';
+import { reactive, toRefs } from "vue";
+import { useRouter } from "vue-router";
+import jsBridge from "lg-js-bridge";
 
-import IconBackButtonDark from './images/back_btn_dark.png';
-import IconBackButtonLight from './images/back_btn_light.png';
-import IconRefreshButtonDark from './images/refresh_btn_dark.png';
-import IconRefreshButtonLight from './images/refresh_btn_light.png';
+import IconBackButtonDark from "./images/back_btn_dark.png";
+import IconBackButtonLight from "./images/back_btn_light.png";
+import IconRefreshButtonDark from "./images/refresh_btn_dark.png";
+import IconRefreshButtonLight from "./images/refresh_btn_light.png";
 
 interface StateProps {
   height: string;
@@ -16,8 +16,8 @@ interface StateProps {
 
 interface IProps {
   title?: string;
-  type?: 'APP' | 'H5';
-  theme?: 'dark' | 'light';
+  type?: "APP" | "H5";
+  theme?: "dark" | "light";
   showPlace?: boolean;
   showBack?: boolean;
   showStatusBar?: boolean;
@@ -30,36 +30,33 @@ interface IProps {
 }
 // ==> props
 const props = withDefaults(defineProps<IProps>(), {
-  type: 'APP',
-  theme: 'dark',
+  type: "APP",
+  theme: "dark",
   showPlace: false,
   showBack: false,
   showStatusBar: true,
   showRefresh: false,
-  backgroundColor: '#FFFFFF',
+  backgroundColor: "#FFFFFF",
   hideTitleInTop: false,
 });
 
 // ==> emits
 const emits = defineEmits<{
-  (e: 'refreh'): void;
-  (e: 'rightButtonTap', data?: string): void;
+  (e: "refreh"): void;
+  (e: "rightButtonTap", data?: string): void;
 }>();
 
 const router = useRouter();
-const isBangScreen =
-  window && window.screen.height >= 812 && window.devicePixelRatio >= 2;
+const isBangScreen = window && window.screen.height >= 812 && window.devicePixelRatio >= 2;
 const state = reactive<StateProps>({
-  height: props.showStatusBar ? (isBangScreen ? '88px' : '64px') : '44px',
+  height: props.showStatusBar ? (isBangScreen ? "88px" : "64px") : "44px",
   opacity: 0,
-  innerBackgroundColor: props.gradientColor
-    ? 'transparent'
-    : props.backgroundColor,
+  innerBackgroundColor: props.gradientColor ? "transparent" : props.backgroundColor,
 });
 
 // ==> events
 const onBackButtonTap = () => {
-  if (router.currentRoute.value.query.appBack === '1') {
+  if (router.currentRoute.value.query.appBack === "1") {
     jsBridge.nativeBack();
   } else {
     if (props.onBack) {
@@ -70,10 +67,9 @@ const onBackButtonTap = () => {
   }
 };
 
-window.addEventListener('scroll', (e) => {
+window.addEventListener("scroll", (e) => {
   e = e || window.event;
-  const scrollTop =
-    document.body.scrollTop || document.documentElement.scrollTop;
+  const scrollTop = document.body.scrollTop || document.documentElement.scrollTop;
   const target = 100;
   if (scrollTop < target) {
     state.opacity = scrollTop / target;
@@ -88,13 +84,7 @@ const { height, opacity, innerBackgroundColor } = toRefs(state);
 <template>
   <div class="app-header">
     <!-- 占位元素 -->
-    <div
-      v-if="
-        (!gradientColor && innerBackgroundColor !== 'transparent') || showPlace
-      "
-      class="app-header__place"
-      :style="{ height }"
-    />
+    <div v-if="(!gradientColor && innerBackgroundColor !== 'transparent') || showPlace" class="app-header__place" :style="{ height }" />
     <!-- 内容 -->
     <div
       class="app-header__wrap"
@@ -110,9 +100,7 @@ const { height, opacity, innerBackgroundColor } = toRefs(state);
             v-if="showBack"
             :class="`app-header__backButton ${type === 'APP' ? 'app' : 'h5'}`"
             :style="{
-              background: `url(${
-                theme === 'dark' ? IconBackButtonDark : IconBackButtonLight
-              }) no-repeat 0 center`,
+              background: `url(${theme === 'dark' ? IconBackButtonDark : IconBackButtonLight}) no-repeat 0 center`,
             }"
             @click="onBackButtonTap"
           />
@@ -127,20 +115,12 @@ const { height, opacity, innerBackgroundColor } = toRefs(state);
           <slot />
         </div>
         <div class="app-header__rightButton">
-          <span v-if="rightButtonText" @click="emits('rightButtonTap')">{{
-            rightButtonText
-          }}</span>
+          <span v-if="rightButtonText" @click="emits('rightButtonTap')">{{ rightButtonText }}</span>
           <div
             v-if="showRefresh"
-            :class="`app-header__refreshButton ${
-              type === 'APP' ? 'app' : 'h5'
-            }`"
+            :class="`app-header__refreshButton ${type === 'APP' ? 'app' : 'h5'}`"
             :style="{
-              background: `url(${
-                theme === 'dark'
-                  ? IconRefreshButtonDark
-                  : IconRefreshButtonLight
-              }) no-repeat 100% center`,
+              background: `url(${theme === 'dark' ? IconRefreshButtonDark : IconRefreshButtonLight}) no-repeat 100% center`,
             }"
             @click="emits('refreh')"
           />
@@ -148,11 +128,7 @@ const { height, opacity, innerBackgroundColor } = toRefs(state);
         </div>
       </div>
       <!-- 渐变层 -->
-      <div
-        v-if="gradientColor"
-        class="app-header__mask"
-        :style="{ background: gradientColor, opacity }"
-      ></div>
+      <div v-if="gradientColor" class="app-header__mask" :style="{ background: gradientColor, opacity }"></div>
     </div>
   </div>
 </template>

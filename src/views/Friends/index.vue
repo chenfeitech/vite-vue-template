@@ -2,8 +2,21 @@
  * @Author: Lee
  * @Date: 2021-11-07 14:17:09
  * @LastEditors: Lee
- * @LastEditTime: 2021-11-30 21:38:43
+ * @LastEditTime: 2022-11-25 20:31:16
 -->
+
+<script setup lang="ts">
+import Tools from "lg-tools";
+import DragView from "comps/@lgs/DragView/DragView.vue";
+import AppHeader from "comps/@lgs/AppHeader/AppHeader.vue";
+
+const env = Tools.getEnv();
+
+const onTap = () => {
+  console.log("点击拖拽视图...");
+};
+</script>
+
 <template>
   <div class="page">
     <app-header v-if="env !== 'weixin'" title="好友" :show-status-bar="false" />
@@ -15,20 +28,7 @@
   </div>
 </template>
 
-<script setup lang="ts">
-import AppHeader from '@/components/@lgs/AppHeader/AppHeader.vue';
-import Tools from 'lg-tools';
-import DragView from '@/components/@lgs/DragView/DragView.vue';
-
-const env = Tools.getEnv();
-
-const onTap = () => {
-  console.log('点击拖拽视图...');
-};
-</script>
-
 <style lang="less" scoped>
-
 .jump-button {
   text-align: center;
   margin-top: 20px;

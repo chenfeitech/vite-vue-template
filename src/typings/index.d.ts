@@ -1,37 +1,26 @@
 /*
- * @Author: Li-HONGYAO
- * @Date: 2021-03-26 22:51:19
- * @LastEditTime: 2021-12-30 19:21:17
+ * @Author: Lee
+ * @Date: 2022-11-25 16:23:02
  * @LastEditors: Lee
+ * @LastEditTime: 2022-11-28 09:47:10
  * @Description:
  */
 
-import { AxiosRequestConfig } from 'axios';
-import { FiltersProps } from '@/filters';
+import { FiltersProps } from "@/filters";
 export {};
 
-/** 1. axios 模块定义 */
-declare module 'axios' {
-  export interface AxiosInstance {
-    <T = any>(config: AxiosRequestConfig): Promise<T>;
-    request<T = any> (config: AxiosRequestConfig): Promise<T>;
-    get<T = any>(url: string, config?: AxiosRequestConfig): Promise<T>;
-    delete<T = any>(url: string, config?: AxiosRequestConfig): Promise<T>;
-    head<T = any>(url: string, config?: AxiosRequestConfig): Promise<T>;
-    post<T = any>(url: string, data?: any, config?: AxiosRequestConfig): Promise<T>;
-    put<T = any>(url: string, data?: any, config?: AxiosRequestConfig): Promise<T>;
-    patch<T = any>(url: string, data?: any, config?: AxiosRequestConfig): Promise<T>;
-  }
-}
-
-/** 2. vue 全局属性定义 */
-declare module '@vue/runtime-core' {
+/********************
+ ** 全局属性定义
+ ********************/
+declare module "@vue/runtime-core" {
   interface ComponentCustomProperties {
     $filters: FiltersProps;
   }
 }
 
-/** 3. 全局类型声明 */
+/********************
+ ** 全局类型声明
+ ********************/
 declare global {
   interface Window {
     _hmt: any;
@@ -41,62 +30,66 @@ declare global {
     AlipayJSBridge: any;
     CONFIG_URL_FOR_IOS: string;
   }
-  namespace GD {
-    interface BaseResponse<T = any> {
-      code: number;
-      data: T;
-      msg: string;
-      page: {
-        pageNo: number;
-        pageSize: number;
-        pages: number;
-        total: number;
-      };
-      success: boolean;
-    }
 
-    /**
-     * 列表数据类型
-     */
-    interface ListProps<T = any> {
+  declare namespace GD {
+    /**********************
+     ** 列表数据
+     **********************/
+    type ListProps<T = any> = {
       page: number;
       data: T;
-      type: 'refresh' | 'load';
+      type: "refresh" | "load";
       isRefreshing: boolean;
       isLoading: boolean;
       isFinished: boolean;
-    }
+    };
+  }
 
-    /** 钱包 */
-    interface WalletProps {
-      cashAmount: number /** 钱包金额(元) */;
-      coinAmount: number /** 金币余额 */;
-      coinCny: number /** 金币约等于多少人民币 */;
-      estimateAmount: number /** 预估到账金额 */;
-      accWithdrawAmount: number /** 累计提现金额 */;
-      activeStatus: number /** 是否激活 0-未激活 1-激活 */;
-    }
-    /**
-     * 提现金额配置
-     */
-    interface WithdrawConfigItemProps {
-      arrivedSec: boolean /** 是否秒到账 */;
-      feeRate: number /** 手续费 */;
-      money: number /** 提现金额 */;
-      repeatable: boolean /** 是否可重复提 */;
-    }
-    /** 提现配置 */
-    interface WithdrawConfigProps {
-      amounts: WithdrawConfigItemProps[];
-      desc: string /** 提现说明 */;
-    }
+  declare namespace API {
+    /**********************
+     ** 登录相关
+     **********************/
+    type LoginParams = {
+      username: string;
+      password: string;
+    };
+    type LoginResult = {
+      token: string;
+    };
 
-    interface ListItemProps {
+    /**********************
+     ** 首页
+     **********************/
+    type TaskResponseProps = {
+      signStatus: number;
+      count: number;
+      amount: number;
+      videoCount: number;
+      residueCount: number;
+      videoSubTitle: string;
+      inviteSubTitle: string;
+      treasureSubTitle: string;
+      treasureStatus: number;
+    };
+
+    type ListItemProps = {
       title: string;
       date: string;
       count: number;
       status: number;
       failMsg: string;
-    }
+    };
+
+    type RecordItemProps = {
+      amount: number;
+      paymentStatus: number /** 提现状态 (0：处理中 1：成功 2：失败) */;
+      withdrawTime: string;
+    };
+
+    type FriendsItemType = {
+      avatar: string;
+      nickName: string;
+      activeStatus: number;
+    };
   }
 }

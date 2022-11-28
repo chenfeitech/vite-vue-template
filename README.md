@@ -2,7 +2,7 @@
 
 在开发中，每次启动新项目时都需要耗费大量的时间去做一些项目配置、框架搭建类的事情。
 
-闲暇之余，结合平时的开发需求，搭建了一套基于 `Vite2` + `Vue3` + `TypeScript` + `Vant-mobile` 的模板，以后启用新项目时直接克隆一份出来，根据新项目需求做一些简单的修改就可以使用了，可以说极大的提高了前期搭建项目框架的效率。
+闲暇之余，结合平时的开发需求，搭建了一套基于 `Vite3` + `Vue3` + `TypeScript` + `Vant-mobile` 的模板，以后启用新项目时直接克隆一份出来，根据新项目需求做一些简单的修改就可以使用了，可以说极大的提高了前期搭建项目框架的效率。
 
 之前基于 `Vite` 单独封装了一套针对 `H5` 和 `公众号` 的模板，考虑到后期的<u>维护性</u>以及拆分成两个模板的<u>必要性</u>，所以重新将其整合成一套模板，这样便于维护和更新。
 
@@ -31,26 +31,28 @@
 Vite-vue-template
 .
 ├── mock
-│	└──	test.ts                 # 数据mock，开发环境时可以模拟后端相应数据
+│	└──	index.ts                 # 数据mock，开发环境时可以模拟后端相应数据
 ├── public                    # 该文件下的目录打包时将直接拷贝只根目录，我在里面放了自定义字体
 ├── src                       # 源码文件
 │   ├── api                   # 接口请求相关
 │   │   ├── index.ts          # 整合接口请求，统一导出      
 │   │   └── test.ts           # 根据功能划分的独立请求，将在index.ts导入整合之后再导出
-│   ├── assets                # 静态资源（图片）
+│   ├── assets                # 静态资源
+│   │   ├── styles            # 全局/基础样式
+│   │   ├── .... 
 │   ├── components            # 全局组件
 │   │   ├── @lgs              # 自己封装的常用组件
 │   │   ├── ....              # 项目内通用组件
 │   ├── directives            # 自定义指令
 │   ├── filters               # 可以在模板中使用的过滤器
 │   ├── hooks                 # 封装的常用hooks
-│   ├── pages                 # 页面组件（下面只列举主要文件）
+│   ├── views                 # 页面组件（下面只列举主要文件）
 │   │   ├── 404
 │   │   ├── Auth              # 微信授权页（MP）
 │   │   ├── ...				        # 其他页面
 │   │   └── Download          # 下载页模板（如果是混合开发， 可能需要写一个APP下载页）
 │   ├── router                # 路由配置文件
-│   ├── store                 # Vuex
+│   ├── store                 # Pinia
 │   ├── typings               # 全局类型声明
 │   ├── utils                 # 工具函数
 │   │   ├── LibForAli.ts      # 支付宝生活号开发时使用
@@ -58,13 +60,12 @@ Vite-vue-template
 │   │   ├── rem.ts            # 移动端适配（动态计算根节点像素）
 │   │   └── request.ts        # 基于axios封装的请求类
 │   ├── App.vue
-│   ├── env.d.ts              # 环境变量类型定义
-│   ├── index.css             # 全局预定义样式/类bootstrap使用class定义样式
 │	  └──	main.ts               # 入口文件
 ├── .env.dev                  # 开发环境配置文件       
 ├── .env.production           # 生产环境配置文件   
 ├── .env.test                 # 测试环境配置文件   
 ├── .gitignore                # git跟踪忽略配置
+├── env.d.ts                  # 环境变量类型定义
 ├── index.html                # 模板
 ├── postcss.config.js         # postcss 配置文件（自动添加前缀/移动端适配pxtorem)
 ├── tsconfig.json             # TS配置文件
@@ -77,13 +78,13 @@ Vite-vue-template
 
 ```shell
 # 安装依赖
-$ yarn
+$ npm install
 # 运行项目
-$ yarn dev
+$ npm run dev
 # 打包生成环境
-$ yarn build
+$ npm run build
 # 打包测试环境
-$ yarn test
+$ npm run test
 ```
 
 > 提示：由于模板 mock 数据，运行前，你需要在 `.env.dev` 文件中，将 `VITE_APP_HOST` 字段的 `ip` 地址替换成你本机的 `ip` 才能正常请求mock数据。
@@ -105,7 +106,7 @@ $ yarn test
 - 在 `package.json` 文件脚本指令中，根据打包环境指定 `--base` 字段，如下所示：
 
   ```json
-  "build": "vue-tsc --noEmit && vite build --mode production --base=/二级目录名/",
+  "build": "vite build --mode production --base=/二级目录名/",
   ```
 
 - 在 `router.ts` 文件中配置
@@ -166,11 +167,6 @@ Schemes.config('xxx://www.xxx.com');
 ## 9. 全局挂载组件
 
 你应该可以看到在 `App.vue` 中我调用了 `BindPhone` 组件，这个功能的出现是因为之前项目中有一个需要 check 绑定手机号的状态，如果没有绑定手机号需要显示该组件，我并没有将其写成一个页面，而是以一个挂载在全局的组件形式呈现。在授权 `Auth` 和 `App.vue` 中都有相关代码，你可以根据需要选择删除或保留或修改。
-
-# 后续计划
-
-- 抽离 `@lgs` 组件库；
-- 转 Script Setup 语法，目前部分文件没有用这个语法糖，后续会慢慢替换。
 
 
 
