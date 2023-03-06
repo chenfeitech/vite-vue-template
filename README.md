@@ -31,27 +31,28 @@
 Vite-vue-template
 .
 ├── mock
-│	└──	index.ts                 # 数据mock，开发环境时可以模拟后端相应数据
+│	└──	index.ts                # 数据mock，开发环境时可以模拟后端相应数据
 ├── public                    # 该文件下的目录打包时将直接拷贝只根目录，我在里面放了自定义字体
 ├── src                       # 源码文件
-│   ├── api                   # 接口请求相关
-│   │   ├── index.ts          # 整合接口请求，统一导出      
-│   │   └── test.ts           # 根据功能划分的独立请求，将在index.ts导入整合之后再导出
 │   ├── assets                # 静态资源
-│   │   ├── styles            # 全局/基础样式
-│   │   ├── .... 
+│   ├── constants             # 全局常量定义
 │   ├── components            # 全局组件
 │   │   ├── @lgs              # 自己封装的常用组件
 │   │   ├── ....              # 项目内通用组件
 │   ├── directives            # 自定义指令
 │   ├── filters               # 可以在模板中使用的过滤器
 │   ├── hooks                 # 封装的常用hooks
-│   ├── views                 # 页面组件（下面只列举主要文件）
+│   ├── layouts               # 公共布局（Tab页） 
+│   ├── pages                 # 页面组件（下面只列举主要文件）
 │   │   ├── 404
 │   │   ├── Auth              # 微信授权页（MP）
 │   │   ├── ...				        # 其他页面
+│   │   ├── Tabs              # Tab页
 │   │   └── Download          # 下载页模板（如果是混合开发， 可能需要写一个APP下载页）
 │   ├── router                # 路由配置文件
+│   ├── service               # 接口请求相关
+│   │   ├── index.ts          # 整合接口请求，统一导出      
+│   │   └── examples.ts       # 根据功能划分的独立请求，将在index.ts导入整合之后再导出
 │   ├── store                 # Pinia
 │   ├── typings               # 全局类型声明
 │   ├── utils                 # 工具函数
@@ -60,10 +61,10 @@ Vite-vue-template
 │   │   ├── rem.ts            # 移动端适配（动态计算根节点像素）
 │   │   └── request.ts        # 基于axios封装的请求类
 │   ├── App.vue
-│	  └──	main.ts               # 入口文件
+│   ├── main.ts
+│	  └──	vite-env.d.ts         # 全局变量类型定义
 ├── .env.dev                  # 开发环境配置文件       
 ├── .env.production           # 生产环境配置文件   
-├── .env.test                 # 测试环境配置文件   
 ├── .gitignore                # git跟踪忽略配置
 ├── env.d.ts                  # 环境变量类型定义
 ├── index.html                # 模板
@@ -93,7 +94,7 @@ $ npm run test
 
 ## 1. 标签页 TabBar
 
-如果你的项目首页是一个标签，可自行在 `src/components/@lgs/TabBar` 组件中配置图标、路由和标题。
+如果你的项目首页是一个标签，可自行在 `src/layouts` 组件中配置图标、路由和标题。
 
 ## 2. 部署二级目录
 
@@ -142,9 +143,9 @@ Schemes.config('xxx://www.xxx.com');
 
 模板中给大家列举了几种列表页的兼容实现，App / 浏览器 / 公众号 环境中都能完美呈现，如果你有兴趣的话可以阅读源码，并根据实际的需求做更改，参考路径如下：
 
-- pages/GoldCoinDetails
-- pages/ListPage
-- pages/TabPage
+- pages/Examples/GoldCoinDetails
+- pages/Examples/List
+- pages/Examples/Tab
 
 ## 5. Set Token Key
 
